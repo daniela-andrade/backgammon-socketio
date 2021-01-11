@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO Backgammon</title>
+  </head>
+  <body>
+    <p id="players"></p>
+    <div id="startDiv">
+      <button id="newGame" type="submit" name="createButton" value="New Game" onclick="create()">New Game</button>
+      <button id="joinGame" type="submit" name="joinButton" value="Join Game" onclick="join()">Join Game</button>
+      <input id="roomId" type="text" name="roomId" value="" placeholder="Insert Room Id">
+    </div>
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+    var p = document.getElementById("players");
+    
+    var newGame = document.getElementById("newGame");
+    var joinGame = document.getElementById("joinGame");
+    var roomId = document.getElementById("roomId");
+    var startDiv = document.getElementById("startDiv");
+
+    create = () => socket.emit('create');
+
+    join = () => {
+      if (joinGame && roomId.value){
+        socket.emit('join',roomId.value);
+      }
+    }
+
+    socket.on('connected', function(msg) {
+      var item = document.createElement('li');
+      item.textContent = `Connected using socket: ${msg}`;
+      p.appendChild(item);
+  });
+
+  socket.on('gameCreated', function(room) {
+    console.log(room);
+      var roomId = room.id;
+      var item = document.createElement('li');
+      item.textContent = `Send this game room id to a friend so they can join you: ${roomId}`;
+      p.appendChild(item);
+      startDiv.parentNode.removeChild(startDiv);
+  });
+
+  socket.on('joined', function(roomId) {
+      var item = document.createElement('li');
+      item.textContent = `You joined the room: ${roomId}`;
+      p.appendChild(item);
+      startDiv.parentNode.removeChild(startDiv);
+  });
+
+  socket.on('gameReady', function(game) {
+      var item = document.createElement('li');
+      item.textContent = `Game Ready: ${game.id}`;
+      p.appendChild(item);
+      
+      var item2 = document.createElement('li');
+      item2.textContent = JSON.stringify(game.board);
+      p.appendChild(item2);
+  });
+  
+  </script>
+</html>
