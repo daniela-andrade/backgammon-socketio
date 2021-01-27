@@ -1,9 +1,10 @@
 import express, { Application } from "express"
-import SocketIO, { Socket } from "socket.io"
-import uuid from "uuid"
+import SocketIO from "socket.io"
+import { v4 as uuidv4 } from 'uuid'
 import http, { Server } from "http"
 import { Events, getMessages } from "./constants"
 import { Game, Session } from "./models/models"
+import config from './config'
 
 export class BackgammonServer {
 
@@ -13,41 +14,41 @@ export class BackgammonServer {
     io: SocketIO.Server
     sessions: Map<string, Session>
     games: Map<string, Game>
-    
+
     constructor() {
         this.app = express().use(express.static('public'))
-        this.port = process.env.SERVER_PORT
+        this.port = config.port
         this.httpServer = http.createServer(this.app)
         this.io = new SocketIO.Server(this.httpServer)
         this.sessions = new Map()
         this.games = new Map()
         this.listen()
     }
-    
+
     private listen = () => {
         this.httpServer.listen(this.port, () => {
             console.log('Running server on port %s', this.port)})
-    
+
         this.io.on(Events.CONNECT, (socket) => {
             socket.emit('connected', socket.id)
-            var messages = getMessages(socket.id, this.port)
+            const messages = getMessages(socket.id, this.port)
             console.log(messages.connect)
-            
+
             socket.on(Events.DISCONNECT, () => {
                 console.log(messages.disconnect)
             })
 
             socket.on(Events.CREATE, () => {
                 console.log(messages.create)
-                var game: Game = this.createNewGame(socket)
-                socket.join(game.getRoomId)
-                socket.emit('gameCreated', game)
+                const game: Game = this.createNewGame(socket)
+                socket.join(game.getRoomId())
+                socket.emit('gameCreated', game.getRoomId())
             })
 
             socket.on(Events.JOIN, (roomId: string) => {
                 socket.join(roomId)
                 console.log(`Socket ${socket.id} joined room ${roomId}`)
-                this.io.to(roomId).emit('gameReady', this.games.get(roomId))
+                this.io.to(roomId).emit('gameReady', roomId)
                 socket.emit('joined', roomId)
             })
 
@@ -78,10 +79,10 @@ export class BackgammonServer {
     }
 
     private createNewGame = (socket: SocketIO.Socket): Game => {
-        const roomId = uuid.v4()
+        const roomId = uuidv4()
         const game = new Game(roomId)
         this.games.set(roomId, game)
-        this.sessions.set(socket.id, {socket: socket, roomId: roomId })
+        this.sessions.set(socket.id, {socket, roomId })
         return game
     }
 

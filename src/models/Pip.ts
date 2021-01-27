@@ -1,7 +1,7 @@
 import {Colour} from './Colour'
 
 export class Pip {
-    
+
     private colour: Colour = Colour.NONE
     private numCheckers: number = 0
 
@@ -15,17 +15,17 @@ export class Pip {
 
     setColour = (colour: Colour) : void => { this.colour = colour }
     getColour = () : number => this.colour
-    
+
     getColourCode = () : string => {
         switch(this.colour){
             case Colour.WHITE:
-                return '\u25BC' 
+                return '\u25BC'
             case Colour.BLACK:
-                return '\u25C9' 
+                return '\u25C9'
             default:
-                return '-' 
+                return '-'
         }
-    } 
+    }
 
     isEmpty = () => this.numCheckers === 0
 }

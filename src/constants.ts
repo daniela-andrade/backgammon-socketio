@@ -1,12 +1,12 @@
 export enum Events {
     CONNECT = "connect",
     CONNECTED = "connected",
-    DISCONNECT = "disconnect", 
+    DISCONNECT = "disconnect",
     CREATE = "create",
     JOIN = "join",
     ROLL = "roll",
     MOVE = "move",
-    DOUBLE = "double", 
+    DOUBLE = "double",
     RESPONSE_DOUBLE = "responseDouble",
     RESIGN = "resign"
 }
@@ -23,5 +23,5 @@ export const getMessages = (player: string, port: number | string) => {
         double: "Player " + player + " doubled the offer.",
         responseDouble: "Player " + player + " replied to a doubling offer.",
         resign: "Player " + player + " resigned."
-    } 
-} 
+    }
+}

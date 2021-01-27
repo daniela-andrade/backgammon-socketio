@@ -1,7 +1,7 @@
 export class Die {
 
     private value: number
-    private numUses: number 
+    private numUses: number
 
     constructor(){
         this.numUses = 0
@@ -10,7 +10,7 @@ export class Die {
     public getValue = (): number => this.value
 
     public getNumUses = (): number => this.numUses
-    
+
     public setToDouble = (): void  => { this.numUses = 2 }
 
     public roll = (): void  => { this.numUses = Math.ceil(Math.random()*6) }

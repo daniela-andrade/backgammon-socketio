@@ -12,7 +12,7 @@
     </div>
   </body>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
+  <script type="text/javascript">
     var socket = io();
 
     var p = document.getElementById("players");
@@ -36,9 +36,7 @@
       p.appendChild(item);
   });
 
-  socket.on('gameCreated', function(room) {
-    console.log(room);
-      var roomId = room.id;
+  socket.on('gameCreated', function(roomId) {
       var item = document.createElement('li');
       item.textContent = `Send this game room id to a friend so they can join you: ${roomId}`;
       p.appendChild(item);
@@ -52,15 +50,10 @@
       startDiv.parentNode.removeChild(startDiv);
   });
 
-  socket.on('gameReady', function(game) {
+  socket.on('gameReady', function(roomId) {
       var item = document.createElement('li');
-      item.textContent = `Game Ready: ${game.id}`;
+      item.textContent = `Game Ready: ${roomId}`;
       p.appendChild(item);
-      
-      var item2 = document.createElement('li');
-      item2.textContent = JSON.stringify(game.board);
-      p.appendChild(item2);
   });
-  
   </script>
 </html>

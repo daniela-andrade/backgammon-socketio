@@ -18,15 +18,15 @@ export class Game {
     }
 
     public getRoomId = (): string => this.roomId
-    
+
     public getBoard = (): Board => this.board
-    
+
     public getPlayers = (): Player[] => this.players
-    
+
     public getDices = (): Die[] => this.dices
 
     public getTurn = (): number => this.turn
-    
+
     public addPlayer = (player: Player): void => {
         if (this.players.length > 1) {
             console.log(`Room ${this.roomId} is full, player ${player.getSocketId} can't join.`)
@@ -34,12 +34,12 @@ export class Game {
             this.players.push(player)
             console.log(`Player ${player.getSocketId} joined room ${this.roomId}`)
         }
-        
+
     }
 
     public rollDices = () => {
         this.dices.forEach( die => die.roll() )
     }
 
-    
+
 }

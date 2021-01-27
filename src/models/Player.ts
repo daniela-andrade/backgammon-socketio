@@ -7,7 +7,7 @@ export class Player {
     private minPointMovesLeft: number
 
     constructor(colour: Colour){
-        //this.games.get(roomId) === null ? Colour.BLACK : Colour.WHITE
+        // this.games.get(roomId) === null ? Colour.BLACK : Colour.WHITE
         this.colour = colour
         this.minPointMovesLeft = 167
     }
@@ -15,8 +15,8 @@ export class Player {
     public getSocketId = (): string => this.socketId
 
     public setSocketId = (socketId: string): void => { this.socketId = socketId }
-    
-    public getColour = (): Colour => this.colour 
+
+    public getColour = (): Colour => this.colour
 
     public getMinPointMovesLeft = (): number => this.minPointMovesLeft
 
