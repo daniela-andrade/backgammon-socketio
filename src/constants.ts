@@ -1,20 +1,17 @@
-"use strict";
-exports.__esModule = true;
-exports.getMessages = exports.Events = void 0;
-var Events;
-(function (Events) {
-    Events["CONNECT"] = "connect";
-    Events["CONNECTED"] = "connected";
-    Events["DISCONNECT"] = "disconnect";
-    Events["CREATE"] = "create";
-    Events["JOIN"] = "join";
-    Events["ROLL"] = "roll";
-    Events["MOVE"] = "move";
-    Events["DOUBLE"] = "double";
-    Events["RESPONSE_DOUBLE"] = "responseDouble";
-    Events["RESIGN"] = "resign";
-})(Events = exports.Events || (exports.Events = {}));
-var getMessages = function (player, port) {
+export enum Events {
+    CONNECT = "connect",
+    CONNECTED = "connected",
+    DISCONNECT = "disconnect", 
+    CREATE = "create",
+    JOIN = "join",
+    ROLL = "roll",
+    MOVE = "move",
+    DOUBLE = "double", 
+    RESPONSE_DOUBLE = "responseDouble",
+    RESIGN = "resign"
+}
+
+export const getMessages = (player: string, port: number | string) => {
     return {
         connect: "Player " + player + " trying to connect on port " + port + ".",
         connected: "Player " + player + " connected on port " + port + ".",
@@ -26,6 +23,5 @@ var getMessages = function (player, port) {
         double: "Player " + player + " doubled the offer.",
         responseDouble: "Player " + player + " replied to a doubling offer.",
         resign: "Player " + player + " resigned."
-    };
-};
-exports.getMessages = getMessages;
+    } 
+} 
